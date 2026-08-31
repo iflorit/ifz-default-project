@@ -14,7 +14,7 @@ STATIONS = ["spec", "author", "build", "review", "sim-verify", "integrate", "dep
 
 
 def run(mode: str) -> dict[str, object]:
-    baton = {"project_id": "default", "feature_id": "feature-counter", "state": "spec", "revision": 0}
+    baton = {"project_id": "default", "feature_id": "feat-counter", "state": "spec", "revision": 0}
     baton_hash = _hash(baton)
     transitions: list[str] = []
     recovery: list[str] = []
