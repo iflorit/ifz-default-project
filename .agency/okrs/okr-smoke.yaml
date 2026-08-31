@@ -1,0 +1,7 @@
+id: okr-default-smoke
+title: Complete a deterministic user task
+objective: A user can increment and verify a counter without ambiguity.
+key_results:
+  - id: kr-counter-verification
+    metric: counter_verified
+    target: 1

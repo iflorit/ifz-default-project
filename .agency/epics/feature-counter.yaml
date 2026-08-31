@@ -1,0 +1,16 @@
+id: feature-counter
+epic_id: epic-default
+app_id: default
+title: Counter verification
+spec_summary: Increment a counter and verify the expected value.
+release_notes: The counter can be verified reliably.
+spec_approved: true
+generation: 0
+acceptance_criteria:
+  - description: Verification returns success only when the expected count matches.
+    verification: "python3 src/counter.py --increment 2 --verify 2"
+non_goals:
+  - No network access.
+  - No persistent external side effects.
+created_at: '2026-08-31T00:00:00Z'
+updated_at: '2026-08-31T00:00:00Z'

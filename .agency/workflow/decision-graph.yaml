@@ -1,0 +1,47 @@
+schema_version: "1"
+states:
+  - id: spec
+    terminal: false
+  - id: author
+    terminal: false
+  - id: build
+    terminal: false
+  - id: review
+    terminal: false
+  - id: sim-verify
+    terminal: false
+  - id: integrate
+    terminal: false
+  - id: deploy
+    terminal: false
+  - id: post-metrics
+    terminal: false
+  - id: done
+    terminal: true
+  - id: rollback
+    terminal: true
+transitions:
+  - from: spec
+    to: author
+    on_failure: rollback
+  - from: author
+    to: build
+    on_failure: rollback
+  - from: build
+    to: review
+    on_failure: rollback
+  - from: review
+    to: sim-verify
+    on_failure: author
+  - from: sim-verify
+    to: integrate
+    on_failure: author
+  - from: integrate
+    to: deploy
+    on_failure: rollback
+  - from: deploy
+    to: post-metrics
+    on_failure: rollback
+  - from: post-metrics
+    to: done
+    on_failure: rollback

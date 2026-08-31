@@ -1,0 +1,12 @@
+schema_version: "1"
+tools:
+  - id: counter.verify
+    adapter: src/counter.py
+    side_effect: none
+    host: local
+    input_schema:
+      type: object
+      required: [increment, verify]
+    output_schema:
+      type: object
+      required: [ok, value]

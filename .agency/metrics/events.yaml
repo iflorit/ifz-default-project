@@ -1,0 +1,5 @@
+schema_version: "1"
+events:
+  - id: counter_verified
+    source: counter.verify
+    metric: counter_verified
