@@ -18,11 +18,11 @@ def run(mode: str) -> dict[str, object]:
     baton_hash = _hash(baton)
     transitions: list[str] = []
     recovery: list[str] = []
-    for station in STATIONS[1:]:
-        if mode == "negative" and station == "review":
-            transitions.append("review->author")
-            recovery.append("review_rejected_reoriented")
-        if mode == "sabotage" and station == "build":
+    stations = list(STATIONS[1:])
+    index = 0
+    while index < len(stations):
+        station = stations[index]
+        if mode == "sabotage" and station == "build" and "baton_tamper_detected" not in recovery:
             baton["revision"] = 99
             if _hash(baton) != baton_hash:
                 recovery.append("baton_tamper_detected")
@@ -30,6 +30,18 @@ def run(mode: str) -> dict[str, object]:
                 recovery.append("council_restored_last_valid_baton")
         transitions.append(f"{baton['state']}->{station}")
         baton["state"] = station
+        baton_hash = _hash(baton)
+        if mode == "negative" and station == "review" and "review_rejected_reoriented" not in recovery:
+            transitions.append("review->author")
+            recovery.append("review_rejected_reoriented")
+            baton["state"] = "author"
+            baton["revision"] += 1
+            baton_hash = _hash(baton)
+            # Re-run author, build and review before continuing downstream.
+            transitions.extend(("author->build", "build->review"))
+            baton["state"] = "review"
+            baton_hash = _hash(baton)
+        index += 1
     ok = baton["state"] == "done" and (mode != "negative" or "review_rejected_reoriented" in recovery)
     return {"mode": mode, "project_id": "default", "feature_id": baton["feature_id"], "transitions": transitions, "recovery": recovery, "final_state": baton["state"], "ok": ok}
 
