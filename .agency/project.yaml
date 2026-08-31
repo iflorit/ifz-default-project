@@ -3,6 +3,7 @@ project_id: default
 display_name: Default Autonomous Project
 repository:
   default_branch: main
+  authoring_checkout: .
 capabilities:
   target_platforms: [script]
   build_hosts: [local]
