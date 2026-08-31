@@ -31,7 +31,7 @@ def run(mode: str) -> dict[str, object]:
         transitions.append(f"{baton['state']}->{station}")
         baton["state"] = station
     ok = baton["state"] == "done" and (mode != "negative" or "review_rejected_reoriented" in recovery)
-    return {"mode": mode, "project_id": "default", "feature_id": "feature-counter", "transitions": transitions, "recovery": recovery, "final_state": baton["state"], "ok": ok}
+    return {"mode": mode, "project_id": "default", "feature_id": baton["feature_id"], "transitions": transitions, "recovery": recovery, "final_state": baton["state"], "ok": ok}
 
 
 def _hash(value: dict[str, object]) -> str:
