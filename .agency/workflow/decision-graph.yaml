@@ -26,22 +26,29 @@ transitions:
     on_failure: rollback
   - from: author
     to: build
+    required_gates: [author_artifact]
     on_failure: rollback
   - from: build
     to: review
+    required_gates: [tests_build]
     on_failure: rollback
   - from: review
     to: sim-verify
+    required_gates: [cross_review]
     on_failure: author
   - from: sim-verify
     to: integrate
+    required_gates: [sim_verify]
     on_failure: author
   - from: integrate
     to: deploy
+    required_gates: [integrated]
     on_failure: rollback
   - from: deploy
     to: post-metrics
+    required_gates: [deploy_effect_confirmed]
     on_failure: rollback
   - from: post-metrics
     to: done
+    required_gates: [post_metrics]
     on_failure: rollback
