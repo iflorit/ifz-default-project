@@ -31,7 +31,10 @@ transitions:
   - from: build
     to: review
     required_gates: [tests_build]
-    on_failure: rollback
+    # A build/provider failure is recoverable work, not product rollback:
+    # return to author so the Council can reorient with the failure context
+    # and retry on the next eligible provider without discarding the branch.
+    on_failure: author
   - from: review
     to: sim-verify
     required_gates: [cross_review]
