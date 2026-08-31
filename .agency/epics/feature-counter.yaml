@@ -15,6 +15,5 @@ non_goals:
 remote_config_flag:
   name: feature_default_counter_enabled
   required: true
-authoring_checkout: .
 created_at: '2026-08-31T00:00:00Z'
 updated_at: '2026-08-31T00:00:00Z'
