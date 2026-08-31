@@ -12,5 +12,8 @@ acceptance_criteria:
 non_goals:
   - No network access.
   - No persistent external side effects.
+remote_config_flag:
+  name: feature_default_counter_enabled
+  required: true
 created_at: '2026-08-31T00:00:00Z'
 updated_at: '2026-08-31T00:00:00Z'
