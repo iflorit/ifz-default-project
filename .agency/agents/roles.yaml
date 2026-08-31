@@ -9,8 +9,3 @@ roles:
     provider_class: review
     max_authority: reject
     different_model_required: true
-*** Add File: /Users/ismael/git/personal/ifz-agency/projects/default/.agency/agents/prompts/implementer.md
-# Default implementer
-
-Implement only the feature baton supplied by the operator. Use the declared
-counter tool, produce structured evidence, and never alter the baton hash.
