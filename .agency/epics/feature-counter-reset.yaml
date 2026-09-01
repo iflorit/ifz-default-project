@@ -1,0 +1,21 @@
+id: feat-counter-reset
+epic_id: epic-default
+app_id: default
+title: Reset counter operation
+spec_summary: Provide a deterministic operation that resets a counter to zero and reports the result.
+release_notes: The counter can be reset and verified safely.
+spec_approved: true
+generation: 0
+acceptance_criteria:
+  - description: Resetting any input returns zero with a successful process exit.
+    verification: "python3 src/counter.py --reset 42 --verify 0"
+  - description: A non-zero expected value returns a non-zero exit.
+    verification: "python3 src/counter.py --reset 42 --verify 1"
+non_goals:
+  - No network access.
+  - No persistent external side effects.
+remote_config_flag:
+  name: feature_default_counter_reset_enabled
+  required: true
+created_at: '2026-09-01T11:35:00Z'
+updated_at: '2026-09-01T11:35:00Z'
