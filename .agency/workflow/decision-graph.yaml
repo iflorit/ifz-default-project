@@ -27,11 +27,11 @@ transitions:
   - from: author
     to: build
     required_gates: [author_artifact]
-    on_failure: rollback
+    on_failure: author
   - from: build
     to: review
     required_gates: [tests_build]
-    on_failure: rollback
+    on_failure: author
   - from: review
     to: sim-verify
     required_gates: [cross_review]
