@@ -5,15 +5,71 @@ title: Counter verification
 spec_summary: Increment a counter and verify the expected value.
 release_notes: The counter can be verified reliably.
 spec_approved: true
-generation: 0
+generation: 1
+resurrects_generation: 0
 acceptance_criteria:
   - description: Verification returns success only when the expected count matches.
     verification: "python3 src/counter.py --increment 2 --verify 2"
+  - description: A mismatched expected value reports ok false and exits non-zero.
+    verification: "python3 src/counter.py --increment 2 --verify 3"
+  - description: The project-owned unit suite the build station discovers exists at
+      the repository root and passes.
+    verification: "python3 -m unittest discover -s tests"
 non_goals:
   - No network access.
   - No persistent external side effects.
+  - No change to the counter CLI interface established by generation 0.
+  - No change to the project decision graph or to any gate command.
 remote_config_flag:
   name: feature_default_counter_enabled
   required: true
+notes: >-
+  Resurrection of the terminal generation 0 lineage, answering inbox question
+  terminal-resurrection:default:feat-counter:0. Generation 0 is retained
+  unchanged in the project ledger as history; this is a second lineage, never a
+  second state for the first.
+
+  Why the spec remains coherent: generation 0 died at the build station
+  (transition ecce0206, build -> rollback, reason gate_failed, evidence
+  59e3decc, gate tests_build) with "Start directory is not importable: tests" —
+  the shared checkout carried no tests/ directory at gate time, while the
+  authored branch feature/feat-counter-g0-r0 (evidence a3709b62, artifact
+  d7dffb78) had created tests/__init__.py and tests/test_counter.py and passed
+  author_artifact. No acceptance criterion was ever falsified: the criterion
+  command still succeeds against src/counter.py at the pinned commit
+  (exit 0 / ok true), and the mismatch case exits 1. The objective
+  okr-default-smoke / kr-counter-verification is unmet and still wanted, so
+  retirement would abandon a live key result over an environmental failure.
+
+  What changed versus generation 0: the mismatch case is now its own criterion
+  so that "only when" is mechanically checkable rather than implied, and the
+  discovered test suite is stated as a criterion in the exact form the build
+  station evaluates. Scope, interface and non-goals are otherwise unchanged;
+  no epic scope was expanded.
+
+  Open assumptions, unresolved at spec approval:
+  (1) The build station evaluates tests_build in the shared project checkout at
+  the pinned revision and does not check out the author's certified branch
+  (core/worker.py restricts certified-artifact checkout to sim-verify,
+  integrate, post-metrics and deploy). Until the authored tests/ tree reaches
+  the checkout the gate observes, generation 1 can repeat the generation 0
+  failure for reasons no spec field controls. Gate wiring is agency-owned
+  (core/worker_daemon.py maps script projects to
+  python3 -m unittest discover -s tests) and is outside PM authority and
+  outside this commit's scope; it is recorded here rather than silently
+  assumed away.
+  (2) Evidence that the same gate does pass in this project when tests/ is
+  present: feat-counter-double and feat-counter-reset both hold passed
+  tests_build rows for the identical command, and feat-counter-double itself
+  went abandoned at generation 0 and done at generation 1 — the precedent that
+  resurrection converges here.
+
+  Evidence refs: project ledger /var/lib/ifz-agency/project-state/default.sqlite3
+  (features, transitions, gate_evidence, inbox row
+  terminal-resurrection:default:feat-counter:0); governance/schemas/feature.schema.json;
+  .agency/workflow/decision-graph.yaml (rollback terminal: true);
+  .agency/okrs/okr-smoke.yaml. No UX MCP tool was consulted: this feature has
+  no user-facing surface (a script-only CLI), so no UX-derived criterion is
+  claimed.
 created_at: '2026-08-31T00:00:00Z'
-updated_at: '2026-08-31T00:00:00Z'
+updated_at: '2026-09-03T00:00:00Z'
