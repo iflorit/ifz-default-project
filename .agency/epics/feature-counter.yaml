@@ -5,7 +5,7 @@ title: Counter verification
 spec_summary: Increment a counter and verify the expected value.
 release_notes: The counter can be verified reliably.
 spec_approved: true
-generation: 0
+generation: 1
 acceptance_criteria:
   - description: Verification returns success only when the expected count matches.
     verification: "python3 src/counter.py --increment 2 --verify 2"
@@ -16,4 +16,9 @@ remote_config_flag:
   name: feature_default_counter_enabled
   required: true
 created_at: '2026-08-31T00:00:00Z'
-updated_at: '2026-08-31T00:00:00Z'
+updated_at: '2026-09-05T02:00:00Z'
+notes: >
+  Minimal deterministic feature for autonomous agency conformance testing.
+  Generation 1 is the live canary used to prove a real project promotion; it
+  must earn every gate from the project operator and may not be certified from
+  conformance simulation alone.
